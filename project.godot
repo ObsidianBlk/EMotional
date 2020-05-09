@@ -19,6 +19,12 @@ config/name="Anchored"
 run/main_scene="res://Data/Scenes/World.tscn"
 config/icon="res://icon.png"
 
+[display]
+
+window/size/width=800
+window/stretch/mode="viewport"
+window/stretch/aspect="keep"
+
 [input]
 
 ButtonA={
