@@ -4,8 +4,8 @@ export var max_distance = 64
 export var max_tangential_accel = 32
 export var max_travel_time = 2.0
 export var push_force = 128
-export var collision_minor_speed_threshold = 16
-export var collision_major_speed_threshold = 56
+export var collision_minor_speed_threshold = 8
+export var collision_major_speed_threshold = 32
 export var collision_timedt_threshold = 0.1
 
 
@@ -17,6 +17,7 @@ var traveling = 0;
 
 var in_air = true
 var air_time = 0
+var last_speed = 0
 
 
 # Called when the node enters the scene tree for the first time.
@@ -41,22 +42,25 @@ func _physics_process(delta):
 	if mouse_down:
 		return # We don't follow the mouse or move the squiq when mouse is down.
 		
-	var distance = clamp(mouse_position.x - position.x, -max_distance, max_distance)
-	var dpercent = distance / max_distance
 	if push:
 		push = false
 		traveling = max_travel_time
 		var v_direction = (position - mouse_position).normalized()
-		apply_central_impulse(v_direction * abs(dpercent) * push_force)
+		apply_central_impulse(v_direction * abs(v_direction.length()) * push_force)
 	elif in_air:
 		air_time += delta
 	else:
+		var distance = clamp(mouse_position.x - position.x, -max_distance, max_distance)
+		var dpercent = distance / max_distance
 		if abs(distance) > body_radius:
 			var v_horizontal = Physics2DServer.area_get_param(get_world_2d().get_space(), Physics2DServer.AREA_PARAM_GRAVITY_VECTOR).rotated(deg2rad(-90))
 			$Particles.process_material.tangential_accel = dpercent * max_tangential_accel;
 			apply_central_impulse(v_horizontal * distance * delta)
 		else:
 			$Particles.process_material.tangential_accel = 0
+	
+	last_speed = linear_velocity.length()
+	#print(last_speed)
 	
 
 
@@ -80,7 +84,7 @@ func _draw():
 
 func _on_Player_body_entered(body):
 	in_air = false
-	print(linear_velocity)
+	#print(linear_velocity)
 	if air_time > collision_timedt_threshold:
 		var lvlen = linear_velocity.length()
 		if lvlen >= collision_minor_speed_threshold and lvlen < collision_major_speed_threshold:
