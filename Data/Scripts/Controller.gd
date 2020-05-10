@@ -26,6 +26,7 @@ func _ready():
 	set_physics_process(true)
 	set_process_input(true)
 	body_radius = $CollisionShape2D.shape.radius
+	$Particles.process_material.color = $Sprite.material.get_shader_param("rim_color");
 
 
 func _input(event):

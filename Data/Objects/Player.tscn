@@ -1,9 +1,8 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Data/Scripts/Controller.gd" type="Script" id=1]
-[ext_resource path="res://Data/Colors/GooGradient.tres" type="Texture" id=2]
 [ext_resource path="res://icon.png" type="Texture" id=3]
-[ext_resource path="res://Data/Graphics/droplet_a.png" type="Texture" id=4]
+[ext_resource path="res://Data/Shaders/WaveFish.shader" type="Shader" id=5]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 16.0
@@ -21,117 +20,26 @@ emission_sphere_radius = 16.0
 flag_disable_z = true
 direction = Vector3( 0, 0, 0 )
 spread = 0.0
-gravity = Vector3( 0, 8, 0 )
+gravity = Vector3( 0, 0, 0 )
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
-linear_accel = 10.0
 damping = 12.0
 damping_random = 0.41
 angle = 45.0
 angle_random = 0.85
-scale = 0.75
+scale = 2.0
 scale_curve = SubResource( 5 )
-color_ramp = ExtResource( 2 )
-
-[sub_resource type="Shader" id=7]
-code = "shader_type canvas_item;
-
-uniform float rimWidth : hint_range(1.0, 3.0) = 2.0;
-uniform vec4 rim_color : hint_color;
-uniform vec4 cell_color : hint_color;
-uniform float fisheye_power = 2.0;
-
-vec2 random2(vec2 p){
-	return fract(sin(vec2(dot(p, vec2(127.1, 311.7)), dot(p, vec2(269.5, 183.3)))) * 43758.5453);	
-}
-
-float ramp(float v, float f_min, float f_max){
-	if (v <= f_min){return 0.0;}
-	if (v >= f_max){return 1.0;}
-	return (v - f_min) / f_max;	
-}
-
-float CellularNoise(vec2 vUV, float scale, float time){
-	// Code modified from...
-	// https://thebookofshaders.com/12/
-	vec2 st = vUV * scale;
-	//st.x = vres.x/vres.y;
-	
-	vec2 i_st = floor(st);
-	vec2 f_st = fract(st);
-	
-	float min_dist = 1.0;
-	
-	for (int y = -1; y <= 1; y++){
-		for (int x = -1; x <= 1; x++){
-			vec2 neighbor = vec2(float(x), float(y));
-			vec2 point = random2(i_st + neighbor);
-			point = 0.5 + (0.5 * sin(time + (6.2831 * point)));	
-			float dist = length((neighbor + point) - f_st);
-			min_dist = min(min_dist, dist);
-		}	
-	}
-	
-	return min_dist;
-}
-
-
-vec2 distort(vec2 p) {
-	// Function borrowed and slightly modified from...
-	// https://gist.github.com/henriquelalves/989fdd72e10c90091188
-	p *= 2.0;
-	p -= vec2(1.0, 1.0);
-	if (length(p) >= 1.5){return p;}
-	//return p;
-	if(p.x > 0.0){
-		float angle = p.y / p.x;
-		float theta = atan(angle);
-		float radius = length(p);
-		radius = pow(radius, fisheye_power);
-		
-		p.x = radius * cos(theta);
-		p.y = radius * sin(theta);
-	} else {
-		float angle = p.y / p.x;
-		float theta = atan(angle);
-		float radius = length(p);
-		radius = pow(radius, fisheye_power);
-		
-		p.y = radius * sin(-theta);
-		p.x = radius * cos(theta);
-		p.x = - p.x;
-	}
-	
-	
-	return 0.5 * (p + vec2(1.0,1.0));
-}
-
-
-void fragment(){
-	float n = ramp(CellularNoise(distort(UV.xy), 5.0, TIME), 0.2, 0.9);
-	float rim = length(vec2(0.5, 0.5) - (UV.xy));
-	if (rim > 0.5){
-		rim  = 0.0;
-	}
-	rim = ramp(pow(rim, rimWidth), 0.0, 0.5);
-	
-	vec4 color = texture(SCREEN_TEXTURE, SCREEN_UV);
-	if (rim > 0.0){
-		color = vec4(cell_color.rgb * n, n);
-		color = color + vec4(rim_color.rgb * rim, rim);
-	} else {
-		color = vec4(color.rgb, 0.0);
-	}
-		
-	COLOR = color;
-}"
+color = Color( 0.737255, 0.737255, 0.737255, 1 )
 
 [sub_resource type="ShaderMaterial" id=8]
-shader = SubResource( 7 )
-shader_param/rimWidth = 1.81
-shader_param/rim_color = Color( 0.705882, 0.976471, 0.027451, 1 )
-shader_param/cell_color = Color( 0.690196, 0.435294, 0.109804, 1 )
+shader = ExtResource( 5 )
+shader_param/rimWidth = 2.425
+shader_param/rim_color = Color( 0.870588, 0.870588, 0.870588, 1 )
+shader_param/cell_color = Color( 0.4, 0.690196, 0.109804, 1 )
 shader_param/fisheye_power = 3.0
+shader_param/wave_amp = 0.1
+shader_param/wave_freq = 0.075
+shader_param/wave_scale = 0.075
 
 [node name="Player" type="RigidBody2D"]
 collision_mask = 3
@@ -144,6 +52,7 @@ visible = false
 shape = SubResource( 1 )
 
 [node name="Joint" type="PinJoint2D" parent="."]
+visible = false
 bias = 0.9
 softness = 0.1
 
@@ -152,12 +61,9 @@ current = true
 smoothing_enabled = true
 
 [node name="Particles" type="Particles2D" parent="."]
-visible = false
 amount = 50
-lifetime = 8.0
 local_coords = false
 process_material = SubResource( 6 )
-texture = ExtResource( 4 )
 
 [node name="Sprite" type="Sprite" parent="."]
 material = SubResource( 8 )
