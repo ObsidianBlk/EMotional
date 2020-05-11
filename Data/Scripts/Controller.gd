@@ -46,11 +46,11 @@ func set_colors(prime, alt):
 	if prime.r != prime.g or prime.r != prime.b: # Only adjust mood if not all values are the same.
 		# Even if not all the same, there must be a single dominant color for mood to be adjusted.
 		if prime.r > prime.g and prime.r > prime.b:
-			adjust_mood(Vector3(0.25, 0.0, 0.0))
+			adjust_mood(Color(0.25, 0.0, 0.0, 1.0))
 		if prime.g > prime.r and prime.g > prime.b:
-			adjust_mood(Vector3(0.0, 0.25, 0.0))
+			adjust_mood(Color(0.0, 0.25, 0.0, 1.0))
 		if prime.b > prime.r and prime.b > prime.g:
-			adjust_mood(Vector3(0.0, 0.0, 0.25));
+			adjust_mood(Color(0.0, 0.0, 0.25, 1.0));
 
 func get_colors():
 	return {
@@ -58,12 +58,11 @@ func get_colors():
 		"alt": $Sprite.material.get_shader_param("rim_color")
 	};
 
-func adjust_mood(mv):
-	mood.x = clamp(mood.x + mv.x, 0.0, 1.0)
-	mood.y = clamp(mood.y + mv.y, 0.0, 1.0)
-	mood.z = clamp(mood.z + mv.z, 0.0, 1.0)
-	var color = Color(mood.x, mood.y, mood.z, 1.0)
-	$Sprite.material.set_shader_param("cell_color", color);
+func adjust_mood(mc):
+	mood.r = clamp(mood.r + mc.r, 0.0, 1.0)
+	mood.g = clamp(mood.g + mc.g, 0.0, 1.0)
+	mood.b = clamp(mood.b + mc.b, 0.0, 1.0)
+	$Sprite.material.set_shader_param("cell_color", mood);
 
 func get_tangential_acceleration():
 	return base_tangential_accel
