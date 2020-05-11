@@ -1,16 +1,19 @@
 extends RigidBody2D
 
-const COLLISION_MINOR_SPEED_THRESHOLD = 8
-const COLLISION_MAJOR_SPEED_THRESHOLD = 32
+const COLLISION_MINOR_SPEED_THRESHOLD = 150
+const COLLISION_MAJOR_SPEED_THRESHOLD = 400
 const COLLISION_TIMEDT_THRESHOLD = 0.1
+
+const ANIM_RATE_DEFAULT = 3.5
+const ANIM_RATE_AGGRESSIVE = 6.0
+const ANIM_RATE_CONTENT = 1.0
 
 # The maximum distance from the player in which the mouse will adjust the push force.
 # at max_mouse_distance the full base_push_force <+ modifiers> will be applied.
-export var max_mouse_distance = 256 setget _set_max_mouse_distance
+var max_mouse_distance = 256
 
 # The maximum the mouse can be from the player before player becomes "uncomfortable"
-# (adjusted by mood)
-export var max_comfort_distance = 10 setget _set_max_comfort_distance
+var max_comfort_distance = 10
 
 # The base tangential acceleration that will be applied to the particles to give the
 # player the illusion it's trying to move on it's own. This is just effects things visually (ATM)
@@ -46,11 +49,12 @@ func set_colors(prime, alt):
 	if prime.r != prime.g or prime.r != prime.b: # Only adjust mood if not all values are the same.
 		# Even if not all the same, there must be a single dominant color for mood to be adjusted.
 		if prime.r > prime.g and prime.r > prime.b:
-			adjust_mood(Color(0.25, 0.0, 0.0, 1.0))
+			mood.r = clamp(mood.r + 0.25, 0.0, 1.0)
 		if prime.g > prime.r and prime.g > prime.b:
-			adjust_mood(Color(0.0, 0.25, 0.0, 1.0))
+			mood.g = clamp(mood.g + 0.25, 0.0, 1.0)
 		if prime.b > prime.r and prime.b > prime.g:
-			adjust_mood(Color(0.0, 0.0, 0.25, 1.0));
+			mood.b = clamp(mood.b + 0.25, 0.0, 1.0)
+		$Sprite.material.set_shader_param("cell_color", mood);
 
 func get_colors():
 	return {
@@ -58,31 +62,46 @@ func get_colors():
 		"alt": $Sprite.material.get_shader_param("rim_color")
 	};
 
-func adjust_mood(mc):
-	mood.r = clamp(mood.r + mc.r, 0.0, 1.0)
-	mood.g = clamp(mood.g + mc.g, 0.0, 1.0)
-	mood.b = clamp(mood.b + mc.b, 0.0, 1.0)
-	$Sprite.material.set_shader_param("cell_color", mood);
+func is_aggressive():
+	return mood.r > mood.g and mood.r > mood.b
+
+func is_needie():
+	return mood.g > mood.r and mood.g > mood.b
+
+func is_content():
+	return mood.b > mood.r and mood.b > mood.g
 
 func get_tangential_acceleration():
-	return base_tangential_accel
+	return get_discomfort_adjustment(base_tangential_accel)
 
 func get_push_force():
-	return base_push_force
+	var push = base_push_force
+	if mood.r > mood.b:
+		if mood.r > 0.1 and mood.r < 0.5:
+			push *= 1.25
+		elif mood.r >= 0.5:
+			push *= 1.5
+		elif is_aggressive():
+			push *= 2
+	elif mood.b > mood.r:
+		if mood.b > 0.1 and mood.b < 0.5:
+			push *= 0.75
+		elif mood.b >= 0.5:
+			push *= 0.5
+	return push
 
-func get_discomfort():
-	pass
+func get_discomfort_adjustment(v):
+	if mood.g > 0.0:
+		if is_needie():
+			return v * 1.5
+		elif mood.g > 0.1 and mood.g < 0.5:
+			return v * 1.1
+		elif mood.g >= 0.5:
+			return v * 1.25
+	return v
 
 func get_body_radius():
 	return $CollisionShape2D.shape.radius
-
-func _set_max_mouse_distance(v):
-	var br = $CollisionShape2D.shape.radius
-	max_mouse_distance = max(br * 2, v)
-
-func _set_max_comfort_distance(v):
-	var br = $CollisionShape2D.shape.radius
-	max_comfort_distance = max(br, v)
 
 func _set_base_tangential_accel(v):
 	base_tangential_accel = max(1.0, v)
@@ -95,6 +114,7 @@ func _ready():
 	set_process(true)
 	set_physics_process(true)
 	set_process_input(true)
+	max_comfort_distance = $CollisionShape2D.shape.radius
 	$Sprite.material.set_shader_param("rim_color", neutral_rim);
 	$Particles.process_material.color = neutral_rim
 
@@ -110,10 +130,72 @@ func _input(event):
 
 
 func _shift_mood(delta):
-	# This should shift the mood color back to black.
-	# called py the _physics_process method (I could use the _process method, but I don't
-	# want to possibly mix timings)
-	pass
+	var nr = mood.r
+	var ng = mood.g
+	var nb = mood.b
+	
+	# first handle red (aggression)
+	if mood.r > 0:
+		var drg = mood.r - mood.g
+		var drb = mood.r - mood.b
+		
+		# If the difference between red and blue is positive and more than half of reds value
+		# then blue <contentment> reduces red <aggression>
+		if drb > mood.r * 0.5:
+			nr = clamp(mood.r - (0.1 * delta), 0.0, 1.0)
+		if drg > mood.r * 0.5:
+			nr = clamp(mood.r + (0.025 * delta), 0.0, 1.0)
+			
+	# Then handle green <neediness>
+	# green <neediness> is based on how far the mouse is from the player. The greater the distance
+	# the more <neediness> grows. This can be affected by <contentment> and <aggression> as well.
+	var mdist = (position - mouse_position).length()
+	var gshift = 0.0
+	if is_content():
+		if mdist <= max_comfort_distance:
+			gshift = -0.1
+		elif mdist < (max_mouse_distance * 0.5):
+			gshift = -0.05
+	elif is_needie():
+		gshift = 0.05
+		if mdist <= max_comfort_distance:
+			gshift = -0.05
+		elif mdist >= (max_mouse_distance * 0.5):
+			gshift = 0.1
+	elif is_aggressive():
+		# If player is <aggressive>, then neediness is kinda forgotten about.
+		if mood.r > 0.25 and mood.r < 0.5:
+			gshift = -0.05
+		elif mood.r >= 0.5:
+			gshift = -0.15
+	else:
+		if mdist > max_comfort_distance:
+			gshift = 0.05
+	#print ("Green Shift: ", gshift)
+	#print ("Distance: ", mdist)
+	ng = clamp(mood.g + (gshift * delta), 0.0, 1.0)
+	
+	# Finally handle blue <contentment>
+	# If red <aggression> is half as high or more than blue <contentment>, then contentment goes down.
+	if mood.r >= mood.b * 0.5:
+		nb = clamp(mood.b - (0.1 * delta), 0.0, 1.0)
+	elif mood.g > 0.0:
+		nb = clamp(mood.b - (0.025 * delta), 0.0, 1.0)
+	if mdist < max_comfort_distance:
+		nb = clamp(mood.b + (0.015 * delta), 0.0, 1.0)
+	else:
+		nb = clamp(mood.b - (0.1 * delta), 0.0, 1.0)
+	# Finalize changes!
+	mood = Color(nr, ng, nb, 1.0)
+	$Sprite.material.set_shader_param("cell_color", mood);
+	
+	if is_aggressive():
+		$Sprite.material.set_shader_param("cell_energy", ANIM_RATE_AGGRESSIVE)
+	elif is_content():
+		$Sprite.material.set_shader_param("cell_energy", ANIM_RATE_CONTENT)
+	else:
+		$Sprite.material.set_shader_param("cell_energy", ANIM_RATE_DEFAULT)
+
 
 func _physics_process(delta):
 	if mouse_down:
@@ -128,12 +210,13 @@ func _physics_process(delta):
 	else:
 		var distance = clamp(mouse_position.x - position.x, -max_mouse_distance, max_mouse_distance)
 		var dpercent = distance / max_mouse_distance
-		if abs(distance) > get_body_radius():
+		if !is_content() and abs(distance) > get_body_radius():
 			var v_horizontal = Physics2DServer.area_get_param(get_world_2d().get_space(), Physics2DServer.AREA_PARAM_GRAVITY_VECTOR).rotated(deg2rad(-90))
 			$Particles.process_material.tangential_accel = dpercent * get_tangential_acceleration();
-			apply_central_impulse(v_horizontal * distance * delta)
+			apply_central_impulse(v_horizontal * get_discomfort_adjustment(distance) * delta)
 		else:
 			$Particles.process_material.tangential_accel = 0
+		_shift_mood(delta)
 	
 	last_speed = linear_velocity.length()
 	#print(last_speed)
@@ -162,11 +245,14 @@ func _on_Player_body_entered(body):
 	in_air = false
 	#print(linear_velocity)
 	if air_time > COLLISION_TIMEDT_THRESHOLD:
-		var lvlen = linear_velocity.length()
-		if lvlen >= COLLISION_MINOR_SPEED_THRESHOLD and lvlen < COLLISION_MAJOR_SPEED_THRESHOLD:
-			print("ooOF")
-		elif lvlen >= COLLISION_MAJOR_SPEED_THRESHOLD:
-			print("Oooooch!")
+		#var lvlen = linear_velocity.length()
+		#print("Last Speed: ", last_speed)
+		if last_speed >= COLLISION_MINOR_SPEED_THRESHOLD and last_speed < COLLISION_MAJOR_SPEED_THRESHOLD:
+			#print("Ooof")
+			$Camera/ScreenShake.start()
+		elif last_speed >= COLLISION_MAJOR_SPEED_THRESHOLD:
+			#print("OUCH!")
+			$Camera/ScreenShake.start(0.4, 15, 24)
 	air_time = 0
 
 
