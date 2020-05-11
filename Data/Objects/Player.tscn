@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Data/Scripts/Controller.gd" type="Script" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=3]
+[ext_resource path="res://Data/Graphics/placeholder.png" type="Texture" id=2]
 [ext_resource path="res://Data/Shaders/WaveFish.shader" type="Shader" id=5]
 
 [sub_resource type="CircleShape2D" id=1]
@@ -33,9 +33,10 @@ color = Color( 0.737255, 0.737255, 0.737255, 1 )
 
 [sub_resource type="ShaderMaterial" id=8]
 shader = ExtResource( 5 )
+shader_param/cell_color = Color( 0, 0, 0, 1 )
+shader_param/cell_energy = 3.0
 shader_param/rimWidth = 2.425
-shader_param/rim_color = Color( 0.870588, 0.870588, 0.870588, 1 )
-shader_param/cell_color = Color( 0.4, 0.690196, 0.109804, 1 )
+shader_param/rim_color = Color( 1, 1, 1, 1 )
 shader_param/fisheye_power = 3.0
 shader_param/wave_amp = 0.1
 shader_param/wave_freq = 0.075
@@ -68,6 +69,6 @@ process_material = SubResource( 6 )
 [node name="Sprite" type="Sprite" parent="."]
 material = SubResource( 8 )
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 3 )
+texture = ExtResource( 2 )
 [connection signal="body_entered" from="." to="." method="_on_Player_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_Player_body_exited"]

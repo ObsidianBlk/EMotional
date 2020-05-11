@@ -1,8 +1,9 @@
 shader_type canvas_item;
 
+uniform vec4 cell_color : hint_color;
+uniform float cell_energy : hint_range(1.0, 20.0) = 1.0;
 uniform float rimWidth : hint_range(1.0, 3.0) = 2.0;
 uniform vec4 rim_color : hint_color;
-uniform vec4 cell_color : hint_color;
 uniform float fisheye_power = 2.0;
 uniform float wave_amp : hint_range(-1.0, 1.0) = 0.25;
 uniform float wave_freq : hint_range(0.0, 1.0) = 0.25;
@@ -81,7 +82,7 @@ vec2 wavey(vec2 p, float time) {
 
 
 void fragment(){
-	float n = ramp(CellularNoise(wavey(fisheye(UV.xy), TIME), 5.0, TIME), 0.2, 0.9);
+	float n = ramp(CellularNoise(wavey(fisheye(UV.xy), TIME), 5.0, TIME * cell_energy), 0.2, 0.9);
 	float rim = length(vec2(0.5, 0.5) - (UV.xy));
 	float mask = 1.0;
 	if (rim > 0.5){

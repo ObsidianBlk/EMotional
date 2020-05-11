@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Data/Scripts/Liquid.gd" type="Script" id=1]
+[ext_resource path="res://Data/Graphics/placeholder.png" type="Texture" id=2]
+[ext_resource path="res://Data/Shaders/Liquid.shader" type="Shader" id=3]
+
+[sub_resource type="ShaderMaterial" id=1]
+shader = ExtResource( 3 )
+shader_param/sprite_scale = Vector2( 1, 1 )
+shader_param/distortion = 16.265
+shader_param/liquid_color_main = Color( 0, 0.0862745, 0.603922, 1 )
+shader_param/liquid_color_surface = Color( 0.517647, 0.572549, 1, 1 )
+shader_param/liquid_surface_thickness = 0.12
+shader_param/wave_amp = 0.25
+shader_param/wave_freq = 1.0
+shader_param/wave_scale = 1.0
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 32, 32 )
+
+[node name="Liquid" type="Sprite"]
+material = SubResource( 1 )
+texture = ExtResource( 2 )
+script = ExtResource( 1 )
+
+[node name="Trigger" type="Area2D" parent="."]
+collision_layer = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Trigger"]
+visible = false
+shape = SubResource( 2 )
+[connection signal="body_entered" from="Trigger" to="." method="_on_Trigger_body_entered"]
