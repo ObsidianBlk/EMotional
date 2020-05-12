@@ -41,10 +41,17 @@ var last_speed = 0
 
 
 func set_colors(prime, alt):
-	if alt.r != alt.g or alt.r != alt.b:
-		# only change the rim if there's a single dominant color.
-		$Sprite.material.set_shader_param("rim_color", alt);
-		$Particles.process_material.color = alt
+	$Sprite.material.set_shader_param("rim_color", alt);
+	$Particles.process_material.color = alt
+	if alt.r > alt.g and alt.r > alt.b:
+		_set_color_collision_mask(1)
+	elif alt.g > alt.r and alt.g > alt.b:
+		_set_color_collision_mask(2)
+	elif alt.b > alt.r and alt.b > alt.g:
+		_set_color_collision_mask(3)
+	else:
+		# This should reset all of the collision masks to ON!
+		_set_color_collision_mask(0)
 	
 	if prime.r != prime.g or prime.r != prime.b: # Only adjust mood if not all values are the same.
 		# Even if not all the same, there must be a single dominant color for mood to be adjusted.
@@ -111,6 +118,15 @@ func get_discomfort_adjustment(v):
 
 func get_body_radius():
 	return $CollisionShape2D.shape.radius
+
+
+func _set_color_collision_mask(id):
+	set_collision_mask_bit(10, true)
+	set_collision_mask_bit(11, true)
+	set_collision_mask_bit(12, true)
+	if id >= 1 and id <= 3:
+		set_collision_mask_bit(9 + id, false)
+
 
 func _set_base_tangential_accel(v):
 	base_tangential_accel = max(1.0, v)
