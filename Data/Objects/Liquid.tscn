@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Data/Scripts/Liquid.gd" type="Script" id=1]
 [ext_resource path="res://Data/Graphics/placeholder.png" type="Texture" id=2]
@@ -16,7 +16,26 @@ shader_param/wave_freq = 1.0
 shader_param/wave_scale = 1.0
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 32, 32 )
+extents = Vector2( 32, 31 )
+
+[sub_resource type="Curve" id=3]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.542553, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=4]
+curve = SubResource( 3 )
+
+[sub_resource type="ParticlesMaterial" id=5]
+emission_shape = 2
+emission_box_extents = Vector3( 2, 1, 1 )
+flag_disable_z = true
+direction = Vector3( 0, -1, 0 )
+spread = 86.0
+gravity = Vector3( 0, 98, 0 )
+initial_velocity = 80.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 2.0
+scale_curve = SubResource( 4 )
 
 [node name="Liquid" type="Sprite"]
 material = SubResource( 1 )
@@ -28,5 +47,14 @@ collision_layer = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Trigger"]
 visible = false
+position = Vector2( 0, 1 )
 shape = SubResource( 2 )
+
+[node name="Splash" type="Particles2D" parent="."]
+position = Vector2( 0, -26.9157 )
+emitting = false
+amount = 80
+one_shot = true
+explosiveness = 0.75
+process_material = SubResource( 5 )
 [connection signal="body_entered" from="Trigger" to="." method="_on_Trigger_body_entered"]

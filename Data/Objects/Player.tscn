@@ -44,7 +44,7 @@ shader_param/wave_freq = 0.075
 shader_param/wave_scale = 0.075
 
 [node name="Player" type="RigidBody2D"]
-collision_mask = 3
+collision_mask = 7171
 continuous_cd = 2
 contacts_reported = 1
 contact_monitor = true
