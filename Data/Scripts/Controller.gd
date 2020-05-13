@@ -20,7 +20,7 @@ var max_comfort_distance = 10
 export var base_tangential_accel = 32 setget _set_base_tangential_accel
 
 # The base force applied when being pushed.
-export var base_push_force = 128 setget _set_base_push_force
+export var base_push_force = 64 setget _set_base_push_force
 
 
 # Mood = r: <aggression>, g: <neediness>, b: <contentment>

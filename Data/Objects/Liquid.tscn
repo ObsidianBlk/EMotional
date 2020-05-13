@@ -6,10 +6,10 @@
 
 [sub_resource type="ShaderMaterial" id=1]
 shader = ExtResource( 3 )
-shader_param/sprite_scale = Vector2( 1, 1 )
+shader_param/sprite_scale = Vector2( 2.96, 1 )
 shader_param/distortion = 16.265
-shader_param/liquid_color_main = Color( 0, 0.0862745, 0.603922, 1 )
-shader_param/liquid_color_surface = Color( 0.517647, 0.572549, 1, 1 )
+shader_param/liquid_color_main = Color( 0.180908, 0.250748, 0.8125, 1 )
+shader_param/liquid_color_surface = Color( 0.576471, 0.760784, 0.996078, 1 )
 shader_param/liquid_surface_thickness = 0.12
 shader_param/wave_amp = 0.25
 shader_param/wave_freq = 1.0
@@ -36,6 +36,7 @@ orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 scale = 2.0
 scale_curve = SubResource( 4 )
+color = Color( 0.576471, 0.760784, 0.996078, 1 )
 
 [node name="Liquid" type="Sprite"]
 material = SubResource( 1 )

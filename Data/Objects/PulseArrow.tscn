@@ -1,0 +1,96 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Data/Scripts/PulseArrow.gd" type="Script" id=1]
+[ext_resource path="res://Data/Objects/Glowdot.tscn" type="PackedScene" id=3]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform vec4 primary_color:hint_color = vec4(1.0, 0.8, 0.0, 1.0);
+uniform float fade_offset:hint_range(0.0, 0.5) = 0.1;
+
+float ramp(float v, float f_min, float f_max){
+	float res = (v - f_min) / (f_max - f_min);
+	return max(0.0, min(res, 1.0));
+}
+
+void fragment(){
+	float mask = length(vec2(0.5, 0.5) - (UV.xy));
+	float fade = 1.0 - ramp(mask, fade_offset, 0.5);
+	if (mask > 0.5){
+		mask = 0.0;
+	} else {mask = 1.0;}
+	
+	if (mask == 1.0){
+		COLOR = vec4(primary_color.rgb, fade);	
+	} else {
+		COLOR = vec4(primary_color.rgb, mask);
+	}
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
+shader_param/primary_color = Color( 1, 0.8, 0, 1 )
+shader_param/fade_offset = 0.15
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = SubResource( 1 )
+shader_param/primary_color = Color( 1, 0.8, 0, 1 )
+shader_param/fade_offset = 0.15
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = SubResource( 1 )
+shader_param/primary_color = Color( 1, 0.8, 0, 1 )
+shader_param/fade_offset = 0.15
+
+[sub_resource type="ShaderMaterial" id=5]
+shader = SubResource( 1 )
+shader_param/primary_color = Color( 1, 0.8, 0, 1 )
+shader_param/fade_offset = 0.15
+
+[sub_resource type="ShaderMaterial" id=6]
+shader = SubResource( 1 )
+shader_param/primary_color = Color( 1, 0.8, 0, 1 )
+shader_param/fade_offset = 0.15
+
+[node name="PulseArrow" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="Dot" parent="." instance=ExtResource( 3 )]
+material = SubResource( 2 )
+position = Vector2( 0, -0.698334 )
+pulse_in_time = 0.5
+pulse_out_time = 0.5
+pulse_out = 0.75
+
+[node name="Dot21" parent="." instance=ExtResource( 3 )]
+material = SubResource( 3 )
+position = Vector2( -53.772, 35.6152 )
+pulse_in_time = 0.5
+pulse_out_time = 0.5
+pulse_out = 0.75
+pulse_offset = 0.35
+
+[node name="Dot31" parent="." instance=ExtResource( 3 )]
+material = SubResource( 4 )
+position = Vector2( -110.337, 66.3421 )
+pulse_in_time = 0.5
+pulse_out_time = 0.5
+pulse_out = 0.75
+pulse_offset = 0.6
+
+[node name="Dot22" parent="." instance=ExtResource( 3 )]
+material = SubResource( 5 )
+position = Vector2( 52.3753, 35.6152 )
+pulse_in_time = 0.5
+pulse_out_time = 0.5
+pulse_out = 0.75
+pulse_offset = 0.35
+
+[node name="Dot32" parent="." instance=ExtResource( 3 )]
+material = SubResource( 6 )
+position = Vector2( 106.147, 66.3421 )
+pulse_in_time = 0.5
+pulse_out_time = 0.5
+pulse_out = 0.75
+pulse_offset = 0.6

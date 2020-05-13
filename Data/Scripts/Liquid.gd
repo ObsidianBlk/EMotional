@@ -1,3 +1,4 @@
+#tool
 extends Sprite
 
 export var liquid_body_color:Color setget _set_liquid_body_color, _get_liquid_body_color
