@@ -58,78 +58,55 @@ func get_contentment():
 	return _mood.b
 
 func get_comfort_distance():
-	return get_parent().get_node("CollisionShape2D").shape.radius * 1.1
+	return get_parent().get_node("CollisionShape2D").shape.radius * 2.1
 
 func get_mood_color():
 	return _mood
 
-func shift_mood(delta, in_air, speed, distance):
-	var nr = 0.0
-	var ng = 0.0
-	var nb = 0.0
+func _agg_shift(in_air, speed):
+	var v = -0.1 # By default, aggression is always lowering
 	
-	if in_air:
-		if speed >= EXCITEMENT_MIN_SPEED:
-			if speed >= EXCITEMENT_MAX_SPEED:
-				nr += 0.1
-			else:
-				nr += 0.05
-		else:
-			nr -= 0.1
-			nb += 0.05
-	
-	# first handle red (aggression)
-	if _mood.r > 0:
-		if _mood.b > 0.0:
-			if _mood.b >= _mood.r * 0.5:
-				nr += -0.1
-			if _mood.b < _mood.r * 0.5:
-				nr += -0.05
-			if _mood.r > _mood.b:
-				nr += 0.05
-	nr *= delta
-	
-	
-	# Then handle green <neediness>
-	# green <neediness> is based on how far the mouse is from the player. The greater the distance
-	# the more <neediness> grows. This can be affected by <contentment> and <aggression> as well.
-	var cdist = get_comfort_distance()
-	if not in_air:
-		if is_content():
-			if distance <= cdist:
-				ng += -0.1
-			elif distance < (cdist * 0.5):
-				ng += -0.05
-		elif is_needie():
-			if distance <= cdist:
-				ng += -0.05
-			elif distance >= (cdist * 0.5):
-				ng += 0.1
-			else:
-				ng += 0.05
-		elif is_aggressive():
-			# If player is <aggressive>, then neediness is kinda forgotten about.
-			if _mood.r > 0.25 and _mood.r < 0.5:
-				ng += -0.05
-			elif _mood.r >= 0.5:
-				ng += -0.15
-		else:
-			if distance > cdist:
-				ng += 0.05
-	ng *= delta
-	
-	
-	# Finally handle blue <contentment>
-	# If red <aggression> is half as high or more than blue <contentment>, then contentment goes down.
-	if _mood.r >= _mood.b * 0.5:
-		nb += -0.1
-	elif _mood.g > 0.0:
-		nb += -0.025
-	if distance < cdist:
-		nb += 0.015
+	if in_air and speed >= EXCITEMENT_MIN_SPEED and speed <= EXCITEMENT_MAX_SPEED:
+			v = 0.1 # If in the air, going at an "exciting" speed, aggression rises!
+	elif is_aggressive():
+		v = -0.05 # Otherwise, if we're dominantly aggressive, slow aggression cooldown.
+		if _mood.r * 0.5 > _mood.b and _mood.r * 0.5 > _mood.g:
+			v = 0.0 # But, if our aggression is more than twice the other emotions, don't cooldown at all.
+	return v
+
+func _need_shift(in_air, distance):
+	var v = -0.1
+	if in_air or is_aggressive():
+		# Decrease neediness faster while in air, as "player" is giving attension (in the air) or
+		# otherwise excited!!
+		v = -0.25
 	else:
-		nb += -0.1
-	nb *= delta
-	
-	# Finalize changes!
-	adjust_mood(nr, ng, nb)
+		var cdist = get_comfort_distance()
+		if distance > cdist:
+			v = 0.1
+			if distance > cdist * 8.0:
+				v = 0.25
+	return v
+
+func _con_shift(in_air, speed, distance):
+	var v = -0.1
+	if in_air and speed < EXCITEMENT_MIN_SPEED:
+		v = 0.1
+		if is_aggressive(): # Assuming aggression hasn't taken over...
+			v = 0.05 # Levitating in the air is nice!
+	else:
+		var cdist = get_comfort_distance()
+		if distance <= cdist:
+			v = 0.1 # It's nice when the player is nearby
+			if is_needie():
+				v = 0.05 # My neediness is slowing my contentment.
+		elif is_aggressive():
+			v = -0.25 # If aggressive, reduce contentment a lot.
+	return v
+
+func shift_mood(delta, in_air, speed, distance):
+	adjust_mood(
+		_agg_shift(in_air, speed) * delta,
+		_need_shift(in_air, distance) * delta,
+		_con_shift(in_air, speed, distance) * delta
+	)
