@@ -1,0 +1,12 @@
+The following are the sound effects/music and the places in which they were obtained...
+
+Effects/click.wav
+https://freesound.org/people/OtisJames/sounds/215772/
+
+Effects/generator1.wav
+https://freesound.org/people/HerbertBoland/sounds/114594/
+
+Effects/saw.wav
+https://freesound.org/people/Marregheriti/sounds/266104/
+
+

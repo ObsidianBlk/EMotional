@@ -10,6 +10,9 @@ var _easing_out = false
 var _easing = 0.0
 var _running = false
 
+var _volume_on = 0
+var _pitch_on = 1.0
+
 
 func _set_active(b):
 	if active != b:
@@ -23,6 +26,8 @@ func _set_active(b):
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	_volume_on = $audio.volume_db
+	_pitch_on = $audio.pitch_scale
 	set_physics_process(true)
 	if active and _easing == 0.0:
 		_running = true
@@ -35,13 +40,26 @@ func _physics_process(delta):
 			_easing_in = false
 			_easing_out = false
 			_easing = 0.0
+			if not _running:
+				$audio.stop()
+			$audio.volume_db = _volume_on
+			$audio.pitch_scale = _pitch_on
 		else:
+			if not $audio.playing:
+				$audio.play()
 			var adj
+			var vol
 			if _easing_in:
 				adj = 1.0 - (_easing / ease_in)
+				vol = adj
 			else:
-				adj = 1.0 - (_easing / ease_out)
+				vol = (_easing / ease_out)
+				adj = vol
+			$audio.volume_db = (-80 + ((_volume_on + 80) * vol))
+			$audio.pitch_scale = 0.1 + ((_pitch_on - 0.1) * vol)
 			rotate(deg2rad(degrees_per_second * adj * delta))
-	if _running:
+	elif _running:
+		if not $audio.playing:
+			$audio.play()
 		rotate(deg2rad(degrees_per_second * delta))
 

@@ -28,8 +28,6 @@ func _set_pulse_offset(v):
 	material.set_shader_param("fade_offset", _camp(v, 0.1, 0.5))
 
 func _get_pulse_offset():
-	if self.get_name() == "Dot21":
-		print("PING")
 	return _ramp(material.get_shader_param("fade_offset"), 0.1, 0.5)
 
 func _set_pulse_color(c):
