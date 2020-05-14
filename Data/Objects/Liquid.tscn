@@ -4,7 +4,8 @@
 [ext_resource path="res://Data/Graphics/placeholder.png" type="Texture" id=2]
 [ext_resource path="res://Data/Shaders/Liquid.shader" type="Shader" id=3]
 
-[sub_resource type="ShaderMaterial" id=1]
+[sub_resource type="ShaderMaterial" id=7]
+resource_local_to_scene = true
 shader = ExtResource( 3 )
 shader_param/sprite_scale = Vector2( 2.96, 1 )
 shader_param/distortion = 16.265
@@ -39,7 +40,7 @@ scale_curve = SubResource( 4 )
 color = Color( 0.576471, 0.760784, 0.996078, 1 )
 
 [node name="Liquid" type="Sprite"]
-material = SubResource( 1 )
+material = SubResource( 7 )
 texture = ExtResource( 2 )
 script = ExtResource( 1 )
 

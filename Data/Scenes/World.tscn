@@ -1,92 +1,33 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Data/Objects/PulseArrow.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Data/Objects/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Data/Objects/Liquid.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Data/Graphics/placeholder.png" type="Texture" id=4]
 [ext_resource path="res://Data/Objects/BladeSaw.tscn" type="PackedScene" id=5]
-[ext_resource path="res://Data/Toggler.gd" type="Script" id=6]
-
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 32, 32 )
-
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 32, 32 )
+[ext_resource path="res://Data/Misc/Tileset.tres" type="TileSet" id=7]
 
 [node name="World" type="Node2D"]
 
-[node name="Player" parent="." instance=ExtResource( 2 )]
-position = Vector2( 83.8801, 47.7922 )
-
-[node name="Ground" type="Node2D" parent="."]
-
-[node name="StaticBody2D" type="StaticBody2D" parent="Ground"]
-position = Vector2( 60.061, 218.684 )
-collision_layer = 2
-collision_mask = 5
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground/StaticBody2D"]
-shape = SubResource( 1 )
-
-[node name="Sprite" type="Sprite" parent="Ground/StaticBody2D"]
-self_modulate = Color( 0, 0, 0, 1 )
-texture = ExtResource( 4 )
-
-[node name="StaticBody2D2" type="StaticBody2D" parent="Ground"]
-position = Vector2( 117.555, 225.357 )
-collision_layer = 2
-collision_mask = 5
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground/StaticBody2D2"]
-shape = SubResource( 1 )
-
-[node name="Sprite" type="Sprite" parent="Ground/StaticBody2D2"]
-self_modulate = Color( 0, 0, 0, 1 )
-texture = ExtResource( 4 )
-
-[node name="StaticBody2D3" type="StaticBody2D" parent="Ground"]
-position = Vector2( 165.809, 209.444 )
-collision_layer = 2
-collision_mask = 5
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground/StaticBody2D3"]
-shape = SubResource( 1 )
-
-[node name="Sprite" type="Sprite" parent="Ground/StaticBody2D3"]
-self_modulate = Color( 0, 0, 0, 1 )
-texture = ExtResource( 4 )
-
-[node name="StaticBody2D4" type="StaticBody2D" parent="Ground"]
-position = Vector2( 352.586, 167.485 )
-collision_layer = 2
-collision_mask = 5
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground/StaticBody2D4"]
-shape = SubResource( 1 )
-
-[node name="Sprite" type="Sprite" parent="Ground/StaticBody2D4"]
-self_modulate = Color( 0, 0, 0, 1 )
-texture = ExtResource( 4 )
-
-[node name="Blue Barrier" type="StaticBody2D" parent="Ground"]
-position = Vector2( 258.724, 168.376 )
-rotation = -0.303533
-scale = Vector2( 2.16, 0.400001 )
-collision_layer = 4096
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground/Blue Barrier"]
-shape = SubResource( 1 )
-
-[node name="Sprite" type="Sprite" parent="Ground/Blue Barrier"]
-modulate = Color( 0.380392, 0.54902, 1, 1 )
-texture = ExtResource( 4 )
+[node name="Liquid2" parent="." instance=ExtResource( 3 )]
+position = Vector2( -127.435, 105.962 )
+scale = Vector2( 2.35979, 1.50659 )
+liquid_body_color = Color( 0.517647, 0.145098, 0.145098, 1 )
+liquid_surface_color = Color( 0.984314, 0.478431, 0.490196, 1 )
 
 [node name="Liquid" parent="." instance=ExtResource( 3 )]
-position = Vector2( 109.92, 197.289 )
-scale = Vector2( 2.96, 1 )
+position = Vector2( 539.108, -23.1772 )
+scale = Vector2( 1.66713, 1.11691 )
 liquid_body_color = Color( 0.180908, 0.250748, 0.8125, 1 )
 liquid_surface_color = Color( 0.576471, 0.760784, 0.996078, 1 )
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource( 7 )
+collision_layer = 2
+format = 1
+tile_data = PoolIntArray( -327678, 1, 196611, -327677, 1, 327684, -327676, 1, 327684, -327675, 1, 327684, -327674, 1, 327684, -327673, 1, 196612, -327672, 1, 196612, -327671, 1, 327684, -327670, 1, 196613, -262142, 1, 458753, -262134, 1, 262149, -131081, 1, 0, -131080, 1, 1, -131079, 1, 65537, -131078, 1, 327684, -131077, 1, 327684, -131076, 1, 327684, -131075, 1, 327684, -131074, 1, 196612, -131073, 1, 393219, -196598, 1, 262149, -65545, 1, 65536, -65544, 1, 65537, -65543, 1, 65539, -131063, 1, 0, -131062, 1, 65537, -9, 1, 65541, -8, 1, 65537, -7, 1, 65539, -65529, 1, 262146, -65527, 1, 65536, -65526, 1, 65538, 65527, 1, 131072, 65528, 1, 65537, 65529, 1, 131074, 65532, 1, 262146, 65535, 1, 262146, 7, 1, 327683, 8, 1, 327684, 9, 1, 196609, 10, 1, 65539, 131064, 1, 262147, 131068, 1, 262149, 131071, 1, 262147, 65545, 1, 65536, 65546, 1, 65538, 196600, 1, 262149, 196602, 1, 0, 196603, 1, 1, 196604, 1, 65537, 196605, 1, 131076, 196606, 1, 131076, 196607, 1, 65537, 131081, 1, 131072, 131082, 1, 65537, 262136, 1, 262147, 262138, 1, 131072, 262139, 1, 4, 262140, 1, 65537, 262141, 1, 4, 262142, 1, 4, 262143, 1, 131074, 196618, 1, 262147, 327672, 1, 262147, 327676, 1, 262147, 262154, 1, 262149, 393208, 1, 327683, 393209, 1, 196612, 393210, 1, 196612, 393211, 1, 196612, 393212, 1, 393218, 393213, 1, 327684, 393214, 1, 393219, 327683, 1, 327680, 327684, 1, 196612, 327685, 1, 196612, 327686, 1, 327684, 327687, 1, 196612, 327688, 1, 196612, 327689, 1, 196612, 327690, 1, 327685 )
+
+[node name="Player" parent="." instance=ExtResource( 2 )]
+position = Vector2( -32.4329, -11.6956 )
 
 [node name="PulseArrow" parent="." instance=ExtResource( 1 )]
 position = Vector2( 250.511, 119.095 )
@@ -95,16 +36,3 @@ pulse_color = Color( 0.356863, 0.960784, 0.211765, 1 )
 
 [node name="BladeSaw" parent="." instance=ExtResource( 5 )]
 position = Vector2( 271.339, 28.5271 )
-
-[node name="Toggler" type="Node2D" parent="."]
-script = ExtResource( 6 )
-
-[node name="Area2D" type="Area2D" parent="Toggler"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Toggler/Area2D"]
-shape = SubResource( 2 )
-
-[node name="Sprite" type="Sprite" parent="Toggler"]
-modulate = Color( 0.996078, 0.815686, 0.815686, 1 )
-texture = ExtResource( 4 )
-[connection signal="body_entered" from="Toggler/Area2D" to="Toggler" method="_on_Area2D_body_entered"]
