@@ -4,9 +4,8 @@ const COLLISION_MINOR_SPEED_THRESHOLD = 150
 const COLLISION_MAJOR_SPEED_THRESHOLD = 400
 const COLLISION_TIMEDT_THRESHOLD = 0.1
 
-# The maximum distance from the player in which the mouse will adjust the push force.
-# at max_mouse_distance the full base_push_force <+ modifiers> will be applied.
-var max_mouse_distance = 128
+export var max_stamina = 1000
+export var stamina_regen_per_sec = 125
 
 # The base tangential acceleration that will be applied to the particles to give the
 # player the illusion it's trying to move on it's own. This is just effects things visually (ATM)
@@ -14,8 +13,14 @@ export var base_tangential_accel = 32 setget _set_base_tangential_accel
 
 # The base force applied when being pushed.
 export var base_push_force = 64 setget _set_base_push_force
+export var push_stamina_cost = 100
 
 
+var current_stamina = max_stamina
+
+# The maximum distance from the player in which the mouse will adjust the push force.
+# at max_mouse_distance the full base_push_force <+ modifiers> will be applied.
+var max_mouse_distance = 128
 var neutral_rim = Color(0.9, 0.9, 0.9, 1.0)
 
 var mouse_position = Vector2.ZERO
@@ -77,6 +82,9 @@ func get_push_force():
 func get_body_radius():
 	return $CollisionShape2D.shape.radius
 
+func get_mood():
+	return $Mood
+
 
 func _set_color_collision_mask(id):
 	set_collision_mask_bit(10, true)
@@ -106,7 +114,9 @@ func _input(event):
 		mouse_down = true
 	elif Input.is_action_just_released("ButtonA"):
 		mouse_down = false
-		push = true
+		if current_stamina >= push_stamina_cost:
+			current_stamina -= push_stamina_cost
+			push = true
 
 
 func _physics_process(delta):
@@ -131,6 +141,10 @@ func _physics_process(delta):
 			$Particles.process_material.tangential_accel = 0
 	$Mood.shift_mood(delta, in_air, last_speed, (position - mouse_position).length())
 	last_speed = linear_velocity.length()
+	
+	current_stamina += stamina_regen_per_sec * delta
+	if current_stamina > max_stamina:
+		current_stamina = max_stamina
 	
 
 

@@ -48,6 +48,9 @@ func is_needie():
 func is_content():
 	return _mood.b > _mood.r and _mood.b > _mood.g
 
+func is_neutral():
+	return not is_aggressive() and not is_needie() and not is_content()
+
 func get_aggression():
 	return _mood.r
 
@@ -70,13 +73,13 @@ func _agg_shift(in_air, speed):
 			v = 0.1 # If in the air, going at an "exciting" speed, aggression rises!
 	elif is_aggressive():
 		v = -0.05 # Otherwise, if we're dominantly aggressive, slow aggression cooldown.
-		if _mood.r * 0.5 > _mood.b and _mood.r * 0.5 > _mood.g:
-			v = 0.0 # But, if our aggression is more than twice the other emotions, don't cooldown at all.
+		if speed > 1.0 and _mood.r * 0.5 > _mood.b and _mood.r * 0.5 > _mood.g:
+			v = 0.0 # But, if we're moving and our aggression is more than twice the other emotions, don't cooldown at all.
 	return v
 
 func _need_shift(in_air, distance):
 	var v = -0.1
-	if in_air or is_aggressive():
+	if in_air:
 		# Decrease neediness faster while in air, as "player" is giving attension (in the air) or
 		# otherwise excited!!
 		v = -0.25

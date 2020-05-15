@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Data/Scripts/Doorway.gd" type="Script" id=2]
+[ext_resource path="res://Data/Objects/HalfDoor.tscn" type="PackedScene" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 40, 40 )
+
+[node name="Doorway" type="Node2D"]
+position = Vector2( 211.518, -137.077 )
+script = ExtResource( 2 )
+
+[node name="LeftDoor" parent="." instance=ExtResource( 3 )]
+position = Vector2( -18.0513, -0.440125 )
+
+[node name="RightDoor" parent="." instance=ExtResource( 3 )]
+position = Vector2( 18.0682, -0.440125 )
+scale = Vector2( -1, 1 )
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource( 1 )
+[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_Area2D_body_exited"]
