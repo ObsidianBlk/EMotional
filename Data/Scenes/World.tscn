@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Data/Objects/Pusher.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Data/Objects/Player.tscn" type="PackedScene" id=2]
@@ -10,11 +10,15 @@
 [ext_resource path="res://Data/Graphics/UI/Progress_Back.png" type="Texture" id=8]
 [ext_resource path="res://Data/Graphics/UI/Progress_Bar.png" type="Texture" id=9]
 [ext_resource path="res://Data/Scripts/UI/GUI.gd" type="Script" id=10]
+[ext_resource path="res://Data/Graphics/UI/Progress_Bar_H.png" type="Texture" id=11]
+[ext_resource path="res://Data/Graphics/UI/Progress_Back_H.png" type="Texture" id=12]
+[ext_resource path="res://Data/Fonts/Killer_Robot_20.tres" type="DynamicFont" id=13]
+[ext_resource path="res://Data/Fonts/Hydrogen_64.tres" type="DynamicFont" id=14]
 
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
 shader = ExtResource( 4 )
-shader_param/sprite_scale = Vector2( 2.96, 1 )
+shader_param/sprite_scale = Vector2( 2.35979, 1.50659 )
 shader_param/distortion = 16.265
 shader_param/liquid_color_main = Color( 0.513726, 0.137255, 0.137255, 1 )
 shader_param/liquid_color_surface = Color( 0.984314, 0.478431, 0.490196, 1 )
@@ -26,7 +30,7 @@ shader_param/wave_scale = 1.0
 [sub_resource type="ShaderMaterial" id=2]
 resource_local_to_scene = true
 shader = ExtResource( 4 )
-shader_param/sprite_scale = Vector2( 2.96, 1 )
+shader_param/sprite_scale = Vector2( 1.66713, 1.11691 )
 shader_param/distortion = 16.265
 shader_param/liquid_color_main = Color( 0.180908, 0.250748, 0.8125, 1 )
 shader_param/liquid_color_surface = Color( 0.576471, 0.760784, 0.996078, 1 )
@@ -37,43 +41,45 @@ shader_param/wave_scale = 1.0
 
 [node name="World" type="Node2D"]
 
-[node name="Liquid2" parent="." instance=ExtResource( 3 )]
+[node name="Level_00" type="Node2D" parent="."]
+
+[node name="Liquid2" parent="Level_00" instance=ExtResource( 3 )]
 material = SubResource( 1 )
 position = Vector2( -127.435, 105.962 )
 scale = Vector2( 2.35979, 1.50659 )
 liquid_body_color = Color( 0.513726, 0.137255, 0.137255, 1 )
 liquid_surface_color = Color( 0.984314, 0.478431, 0.490196, 1 )
 
-[node name="Liquid" parent="." instance=ExtResource( 3 )]
+[node name="Liquid" parent="Level_00" instance=ExtResource( 3 )]
 material = SubResource( 2 )
 position = Vector2( 539.108, -23.1772 )
 scale = Vector2( 1.66713, 1.11691 )
 liquid_body_color = Color( 0.180908, 0.250748, 0.8125, 1 )
 liquid_surface_color = Color( 0.576471, 0.760784, 0.996078, 1 )
 
-[node name="Doorway" parent="." instance=ExtResource( 6 )]
+[node name="Doorway" parent="Level_00" instance=ExtResource( 6 )]
 position = Vector2( 94.9786, 581.025 )
 color = Color( 0.0470588, 0.0156863, 0.980392, 1 )
 
-[node name="Doorway2" parent="." instance=ExtResource( 6 )]
+[node name="Doorway2" parent="Level_00" instance=ExtResource( 6 )]
 position = Vector2( -306.381, 286.254 )
 rotation = 1.57079
 color = Color( 0.0235294, 0.980392, 0.0156863, 1 )
 
-[node name="BladeSaw" parent="." instance=ExtResource( 5 )]
+[node name="BladeSaw" parent="Level_00" instance=ExtResource( 5 )]
 position = Vector2( -389.595, -64.0996 )
 
-[node name="BladeSaw2" parent="." instance=ExtResource( 5 )]
+[node name="BladeSaw2" parent="Level_00" instance=ExtResource( 5 )]
 position = Vector2( -298.686, -133.59 )
 degrees_per_second = -270.0
 
-[node name="Pusher" parent="." instance=ExtResource( 1 )]
+[node name="Pusher" parent="Level_00" instance=ExtResource( 1 )]
 position = Vector2( 108.94, -32.8218 )
 pulse_color = Color( 0.980392, 0.980392, 0.74902, 1 )
 push_force = 128.0
 push_angle = 34.923
 
-[node name="TileMap" type="TileMap" parent="."]
+[node name="TileMap" type="TileMap" parent="Level_00"]
 tile_set = ExtResource( 7 )
 collision_layer = 2
 format = 1
@@ -85,35 +91,73 @@ position = Vector2( -32.4329, -11.6956 )
 [node name="GUI" type="CanvasLayer" parent="."]
 script = ExtResource( 10 )
 
-[node name="PlayerUI" type="Control" parent="GUI"]
+[node name="PlayerUI" type="HBoxContainer" parent="GUI"]
+margin_left = 10.0
+margin_top = 10.0
 margin_right = 40.0
 margin_bottom = 40.0
+custom_constants/separation = 14
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="NRG" type="VBoxContainer" parent="GUI/PlayerUI"]
+margin_right = 41.0
+margin_bottom = 164.0
+
+[node name="Label" type="Label" parent="GUI/PlayerUI/NRG"]
+margin_right = 41.0
+margin_bottom = 24.0
+custom_fonts/font = ExtResource( 13 )
+text = "NRG"
+
+[node name="Bar" type="TextureRect" parent="GUI/PlayerUI/NRG"]
+margin_top = 28.0
+margin_right = 41.0
+margin_bottom = 146.0
+texture = ExtResource( 12 )
+stretch_mode = 4
+
+[node name="Progress" type="TextureProgress" parent="GUI/PlayerUI/NRG/Bar"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -12.0
+margin_top = -59.0
+margin_right = 12.0
+margin_bottom = 59.0
+value = 70.0
+texture_progress = ExtResource( 11 )
+fill_mode = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tween" type="Tween" parent="GUI/PlayerUI/NRG/Bar/Progress"]
+
 [node name="MoodBars" type="VBoxContainer" parent="GUI/PlayerUI"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = -10.0
-margin_bottom = -10.0
+margin_left = 55.0
+margin_right = 311.0
+margin_bottom = 164.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Aggression" type="VBoxContainer" parent="GUI/PlayerUI/MoodBars"]
 margin_right = 256.0
-margin_bottom = 42.0
+margin_bottom = 52.0
 
 [node name="Label" type="Label" parent="GUI/PlayerUI/MoodBars/Aggression"]
 margin_right = 256.0
-margin_bottom = 14.0
+margin_bottom = 24.0
+custom_fonts/font = ExtResource( 13 )
 text = "Aggression"
 
 [node name="Bar" type="TextureRect" parent="GUI/PlayerUI/MoodBars/Aggression"]
-margin_top = 18.0
+margin_top = 28.0
 margin_right = 256.0
-margin_bottom = 42.0
+margin_bottom = 52.0
 rect_min_size = Vector2( 256, 24 )
 texture = ExtResource( 8 )
 
@@ -131,19 +175,20 @@ __meta__ = {
 [node name="Tween" type="Tween" parent="GUI/PlayerUI/MoodBars/Aggression/Bar/Progress"]
 
 [node name="Neediness" type="VBoxContainer" parent="GUI/PlayerUI/MoodBars"]
-margin_top = 46.0
+margin_top = 56.0
 margin_right = 256.0
-margin_bottom = 88.0
+margin_bottom = 108.0
 
 [node name="Label" type="Label" parent="GUI/PlayerUI/MoodBars/Neediness"]
 margin_right = 256.0
-margin_bottom = 14.0
+margin_bottom = 24.0
+custom_fonts/font = ExtResource( 13 )
 text = "Neediness"
 
 [node name="Bar" type="TextureRect" parent="GUI/PlayerUI/MoodBars/Neediness"]
-margin_top = 18.0
+margin_top = 28.0
 margin_right = 256.0
-margin_bottom = 42.0
+margin_bottom = 52.0
 rect_min_size = Vector2( 256, 24 )
 texture = ExtResource( 8 )
 
@@ -161,19 +206,20 @@ __meta__ = {
 [node name="Tween" type="Tween" parent="GUI/PlayerUI/MoodBars/Neediness/Bar/Progress"]
 
 [node name="Contentment" type="VBoxContainer" parent="GUI/PlayerUI/MoodBars"]
-margin_top = 92.0
+margin_top = 112.0
 margin_right = 256.0
-margin_bottom = 134.0
+margin_bottom = 164.0
 
 [node name="Label" type="Label" parent="GUI/PlayerUI/MoodBars/Contentment"]
 margin_right = 256.0
-margin_bottom = 14.0
+margin_bottom = 24.0
+custom_fonts/font = ExtResource( 13 )
 text = "Neediness"
 
 [node name="Bar" type="TextureRect" parent="GUI/PlayerUI/MoodBars/Contentment"]
-margin_top = 18.0
+margin_top = 28.0
 margin_right = 256.0
-margin_bottom = 42.0
+margin_bottom = 52.0
 rect_min_size = Vector2( 256, 24 )
 texture = ExtResource( 8 )
 
@@ -189,3 +235,30 @@ __meta__ = {
 }
 
 [node name="Tween" type="Tween" parent="GUI/PlayerUI/MoodBars/Contentment/Bar/Progress"]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GUI"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -150.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = 93.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GUI/VBoxContainer"]
+margin_right = 140.0
+margin_bottom = 24.0
+custom_fonts/font = ExtResource( 13 )
+custom_colors/font_color = Color( 0.886275, 1, 0.827451, 1 )
+text = "Time Elapsed"
+
+[node name="TimeText" type="Label" parent="GUI/VBoxContainer"]
+margin_top = 28.0
+margin_right = 140.0
+margin_bottom = 93.0
+custom_fonts/font = ExtResource( 14 )
+custom_colors/font_color = Color( 0.368627, 0.368627, 0.368627, 1 )
+custom_colors/font_color_shadow = Color( 1, 1, 1, 1 )
+text = "0:00"
