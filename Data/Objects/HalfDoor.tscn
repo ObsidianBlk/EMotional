@@ -6,6 +6,7 @@
 [ext_resource path="res://Data/Graphics/Tileset.png" type="Texture" id=6]
 
 [sub_resource type="ShaderMaterial" id=1]
+resource_local_to_scene = true
 shader = ExtResource( 3 )
 shader_param/primary_color = Color( 1, 0.8, 0, 1 )
 shader_param/fade_offset = 0.15
@@ -72,3 +73,5 @@ region_rect = Rect2( 0, 512, 32, 16 )
 polygon = PoolVector2Array( -47.9044, -15.9911, -30.1666, -15.9101, -18.8273, -9.9975, -19.0703, -8.86357, -21.0952, -7.08169, -27.0888, -5.13782, -29.9236, -1.97902, -29.8426, 1.74673, -27.0888, 5.06752, -21.0952, 7.09238, -18.9893, 9.03626, -18.9893, 10.0892, -30.0855, 15.8398, -47.9854, 15.9208 )
 
 [node name="Tween" type="Tween" parent="."]
+
+[editable path="Doorway/Glow"]
