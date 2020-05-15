@@ -8,8 +8,8 @@
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
 shader = ExtResource( 3 )
-shader_param/primary_color = Color( 1, 0.8, 0, 1 )
-shader_param/fade_offset = 0.15
+shader_param/primary_color = Color( 0, 0, 0, 1 )
+shader_param/fade_offset = 0.14
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 24, 7 )
@@ -49,6 +49,7 @@ material = SubResource( 1 )
 position = Vector2( 14.989, -0.323532 )
 scale = Vector2( 0.25, 0.25 )
 pulse_in_time = 0.2
+pulse_offset = 0.1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Doorway"]
 shape = SubResource( 2 )

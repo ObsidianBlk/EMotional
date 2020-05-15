@@ -1,3 +1,4 @@
+tool
 extends Sprite
 
 const TRANS = Tween.TRANS_LINEAR

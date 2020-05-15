@@ -31,13 +31,14 @@ void fragment(){
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
 shader = SubResource( 2 )
-shader_param/primary_color = Color( 1, 0.8, 0, 1 )
-shader_param/fade_offset = 0.15
+shader_param/primary_color = Color( 0, 0, 0, 1 )
+shader_param/fade_offset = 0.14
 
 [node name="Glowdot" type="Sprite"]
 material = SubResource( 1 )
 texture = ExtResource( 1 )
 script = ExtResource( 2 )
+pulse_offset = 0.1
 
 [node name="Pulse" type="Tween" parent="."]
 

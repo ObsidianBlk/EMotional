@@ -53,6 +53,9 @@ func get_colors():
 		"alt": $Sprite.material.get_shader_param("rim_color")
 	};
 
+func get_rim_color():
+	return $Sprite.material.get_shader_param("rim_color")
+
 func get_tangential_acceleration():
 	return base_tangential_accel * $Mood.get_need()
 

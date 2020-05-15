@@ -1,22 +1,18 @@
-#tool
+tool
 extends Sprite
 
-export var liquid_body_color:Color setget _set_liquid_body_color, _get_liquid_body_color
-export var liquid_surface_color:Color setget _set_liquid_surface_color, _get_liquid_surface_color
+export var liquid_body_color:Color setget _set_liquid_body_color
+export var liquid_surface_color:Color setget _set_liquid_surface_color
 
 
 func _set_liquid_body_color(c):
+	liquid_body_color = c
 	material.set_shader_param("liquid_color_main", c)
 
-func _get_liquid_body_color():
-	return material.get_shader_param("liquid_color_main")
-
 func _set_liquid_surface_color(c):
+	liquid_surface_color = c
 	material.set_shader_param("liquid_color_surface", c)
 	$Splash.process_material.color = c
-
-func _get_liquid_surface_color():
-	return material.get_shader_param("liquid_color_surface")
 
 func _ready():
 	material.set_shader_param("sprite_scale", scale)
