@@ -12,6 +12,7 @@ degrees_per_second = 270.0
 [node name="audio" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 3 )
 max_distance = 1024.0
+bus = "Effects"
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 position = Vector2( 0.291977, -0.407814 )

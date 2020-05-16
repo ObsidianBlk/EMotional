@@ -185,9 +185,11 @@ func _on_Player_body_entered(body):
 		#print("Last Speed: ", last_speed)
 		if last_speed >= COLLISION_MINOR_SPEED_THRESHOLD and last_speed < COLLISION_MAJOR_SPEED_THRESHOLD:
 			$Mood.adjust_mood(0.1, 0.0, -0.1)
+			$Audio_SmallHit.play()
 			$Camera/ScreenShake.start()
 		elif last_speed >= COLLISION_MAJOR_SPEED_THRESHOLD:
 			$Mood.adjust_mood(0.25, 0.0, -0.25)
+			$Audio_BigHit.play()
 			$Camera/ScreenShake.start(0.4, 15, 24)
 	air_time = 0
 

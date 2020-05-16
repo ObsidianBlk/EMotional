@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Fly.ogg-254c5bd28962b977630c6e193b701d3c.oggstr"
+
+[deps]
+
+source_file="res://Data/Sound/Music/Fly.ogg"
+dest_files=[ "res://.import/Fly.ogg-254c5bd28962b977630c6e193b701d3c.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

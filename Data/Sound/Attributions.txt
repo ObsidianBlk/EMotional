@@ -9,4 +9,18 @@ https://freesound.org/people/HerbertBoland/sounds/114594/
 Effects/saw.wav
 https://freesound.org/people/Marregheriti/sounds/266104/
 
+Effects/splash.wav
+https://freesound.org/people/swordofkings128/sounds/398032/
 
+Effects/Metal_BigHit.wav
+Effects/Metal_SmallHit.wav
+[Both modified from] https://freesound.org/people/newagesoup/sounds/337856/
+
+Effects/mechanic-doors.wav
+[Modified from] https://freesound.org/people/marcgp13/sounds/185756/
+
+Music/Fly.ogg
+Music/Fly_1.ogg
+Music/Industria_1.ogg
+Music/Industria.ogg
+[Modified to OGG from original MP3] https://opengameart.org/content/techno-space

@@ -34,7 +34,9 @@ func _on_Trigger_body_entered(body):
 		var delta = bpos.x - spos.x
 		
 		$Splash.position.x = (delta * (1/scale.x))
-		$Splash.emitting = true 
+		$Splash.emitting = true
+		
+		$Audio.play()
 	
 	if (body.has_method("set_colors")):
 		body.set_colors(

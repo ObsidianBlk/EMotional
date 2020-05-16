@@ -12,6 +12,7 @@ onready var _nrg_bar_tween = get_node("PlayerUI/NRG/Bar/Progress/Tween")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	set_process_input(true)
 	set_process(true)
 	_agg_bar.max_value = 100.0
 	_agg_bar.value = 0.0
@@ -23,6 +24,10 @@ func _ready():
 	_nrg_bar.max_value = get_node("../Player").max_energy
 	_nrg_bar.value = get_node("../Player").get_current_energy()
 
+func _input(event):
+	if event.is_action_pressed("ui_cancel"):
+		get_parent().pause(true)
+		$Menus/PauseMenu.show()
 
 func _process(delta):
 	UpdateMoodBars()
@@ -52,3 +57,8 @@ func UpdateMoodBars():
 	
 	_nrg_bar_tween.interpolate_property(_nrg_bar, "value", _nrg_bar.value, p.get_current_energy(), 0.1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	_nrg_bar_tween.start()
+
+
+func _on_PM_Resume_pressed():
+	get_parent().pause(false)
+	$Menus/PauseMenu.hide()

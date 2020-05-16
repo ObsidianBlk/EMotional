@@ -34,6 +34,7 @@ func open():
 		t = transition_rate * (cdiff / POSITION_DIFF)
 	$Tween.interpolate_property($Doorway, "position", $Doorway.position, OPENED_POSITION, t, Tween.TRANS_LINEAR, Tween.EASE_IN)
 	$Tween.start()
+	$Audio.play()
 	_control_state = 1
 
 func close():
@@ -43,8 +44,10 @@ func close():
 		t = transition_rate * (cdiff / POSITION_DIFF)
 	$Tween.interpolate_property($Doorway, "position", $Doorway.position, CLOSED_POSITION, t, Tween.TRANS_LINEAR, Tween.EASE_IN)
 	$Tween.start()
+	$Audio.play()
 	_control_state = 2
 
 func stop():
 	$Tween.stop($Doorway, "position")
+	$Audio.stop()
 	_control_state = 0

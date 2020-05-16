@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Data/Scripts/Liquid.gd" type="Script" id=1]
 [ext_resource path="res://Data/Graphics/placeholder.png" type="Texture" id=2]
 [ext_resource path="res://Data/Shaders/Liquid.shader" type="Shader" id=3]
+[ext_resource path="res://Data/Sound/Effects/splash.wav" type="AudioStream" id=4]
 
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
@@ -37,7 +38,7 @@ orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 scale = 2.0
 scale_curve = SubResource( 4 )
-color = Color( 0.576471, 0.760784, 0.996078, 1 )
+color = Color( 0.94902, 0.541176, 0.827451, 1 )
 
 [node name="Liquid" type="Sprite"]
 material = SubResource( 1 )
@@ -59,4 +60,8 @@ amount = 80
 one_shot = true
 explosiveness = 0.75
 process_material = SubResource( 5 )
+
+[node name="Audio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+bus = "Effects"
 [connection signal="body_entered" from="Trigger" to="." method="_on_Trigger_body_entered"]

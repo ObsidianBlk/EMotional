@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Industria_1.ogg-a2e1c1fa1e315b8c2849a5a5ecc6ef64.oggstr"
+
+[deps]
+
+source_file="res://Data/Sound/Music/Industria_1.ogg"
+dest_files=[ "res://.import/Industria_1.ogg-a2e1c1fa1e315b8c2849a5a5ecc6ef64.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Metal_SmallHit.wav-a96cd04532b7cb530f4cc0be36a05c2c.sample"
+
+[deps]
+
+source_file="res://Data/Sound/Effects/Metal_SmallHit.wav"
+dest_files=[ "res://.import/Metal_SmallHit.wav-a96cd04532b7cb530f4cc0be36a05c2c.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

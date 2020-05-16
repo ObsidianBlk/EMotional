@@ -4,6 +4,7 @@
 [ext_resource path="res://Data/Objects/PulseArrow.tscn" type="PackedScene" id=2]
 
 [sub_resource type="ParticlesMaterial" id=1]
+resource_local_to_scene = true
 emission_shape = 2
 emission_box_extents = Vector3( 40, 1, 1 )
 flag_disable_z = true
@@ -17,7 +18,7 @@ angle = 45.0
 angle_random = 0.25
 scale = 1.5
 scale_random = 0.5
-color = Color( 0.980392, 0.980392, 0.74902, 1 )
+color = Color( 0.239216, 0.478431, 0.988235, 1 )
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 40, 40 )

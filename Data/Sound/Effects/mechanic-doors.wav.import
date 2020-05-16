@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/mechanic-doors.wav-e3d41aa7b17567f9e61107bd79531fc4.sample"
+
+[deps]
+
+source_file="res://Data/Sound/Effects/mechanic-doors.wav"
+dest_files=[ "res://.import/mechanic-doors.wav-e3d41aa7b17567f9e61107bd79531fc4.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Data/Scripts/HalfDoor.gd" type="Script" id=1]
+[ext_resource path="res://Data/Sound/Effects/mechanic-doors.wav" type="AudioStream" id=2]
 [ext_resource path="res://Data/Shaders/Glowdot.shader" type="Shader" id=3]
 [ext_resource path="res://Data/Objects/Glowdot.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Data/Graphics/Tileset.png" type="Texture" id=6]
@@ -49,7 +50,6 @@ material = SubResource( 1 )
 position = Vector2( 14.989, -0.323532 )
 scale = Vector2( 0.25, 0.25 )
 pulse_in_time = 0.2
-pulse_offset = 0.1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Doorway"]
 shape = SubResource( 2 )
@@ -74,5 +74,9 @@ region_rect = Rect2( 0, 512, 32, 16 )
 polygon = PoolVector2Array( -47.9044, -15.9911, -30.1666, -15.9101, -18.8273, -9.9975, -19.0703, -8.86357, -21.0952, -7.08169, -27.0888, -5.13782, -29.9236, -1.97902, -29.8426, 1.74673, -27.0888, 5.06752, -21.0952, 7.09238, -18.9893, 9.03626, -18.9893, 10.0892, -30.0855, 15.8398, -47.9854, 15.9208 )
 
 [node name="Tween" type="Tween" parent="."]
+
+[node name="Audio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 2 )
+bus = "Effects"
 
 [editable path="Doorway/Glow"]
