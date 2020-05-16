@@ -26,6 +26,19 @@ func _ready():
 
 func _process(delta):
 	UpdateMoodBars()
+	UpdateTimer()
+
+func _toClockString(v):
+	if v < 10:
+		return "0" + String(v)
+	return String(v)
+
+func UpdateTimer():
+	var p = get_parent()
+	var h = p.get_hours()
+	var m = p.get_minutes()
+	var s = p.get_seconds()
+	get_node("Timer/TimeText").text = _toClockString(h) + ":" + _toClockString(m) + ":" + _toClockString(s)
 
 func UpdateMoodBars():
 	var p = get_node("../Player")

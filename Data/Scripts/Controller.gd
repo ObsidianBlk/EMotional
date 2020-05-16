@@ -32,6 +32,12 @@ var air_time = 0
 var last_speed = 0
 
 
+func reset():
+	$Sprite.material.set_shader_param("rim_color", neutral_rim);
+	$Particles.process_material.color = neutral_rim
+	$Mood.reset_mood()
+	current_energy = max_energy
+
 func set_colors(prime, alt):
 	$Sprite.material.set_shader_param("rim_color", alt);
 	$Particles.process_material.color = alt

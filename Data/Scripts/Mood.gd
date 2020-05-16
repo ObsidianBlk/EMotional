@@ -16,6 +16,10 @@ var _mood = Color.black
 onready var _spr = get_parent().get_node("Sprite")
 onready var _body_radius = get_parent().get_node("CollisionShape2D").shape.radius
 
+func reset_mood():
+	_mood = Color.black
+	_spr.material.set_shader_param("cell_color", _mood);
+
 func adjust_mood(r, g, b):
 	_mood.r = clamp(_mood.r + r, 0.0, 1.0)
 	_mood.g = clamp(_mood.g + g, 0.0, 1.0)

@@ -1,0 +1,119 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://Data/Objects/Liquid.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Data/Misc/Tileset.tres" type="TileSet" id=2]
+[ext_resource path="res://Data/Scripts/BladeSaw.gd" type="Script" id=3]
+[ext_resource path="res://Data/Scripts/Doorway.gd" type="Script" id=4]
+[ext_resource path="res://Data/Scripts/Liquid.gd" type="Script" id=5]
+[ext_resource path="res://Data/Graphics/placeholder.png" type="Texture" id=6]
+[ext_resource path="res://Data/Shaders/Liquid.shader" type="Shader" id=7]
+[ext_resource path="res://Data/Scripts/Pusher.gd" type="Script" id=8]
+[ext_resource path="res://Data/Objects/Pusher.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Data/Objects/BladeSaw.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Data/Objects/Doorway.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Data/Scripts/Levels/Level_TestSite.gd" type="Script" id=12]
+
+[sub_resource type="ShaderMaterial" id=1]
+resource_local_to_scene = true
+shader = ExtResource( 7 )
+shader_param/sprite_scale = Vector2( 2.35979, 1.50659 )
+shader_param/distortion = 16.265
+shader_param/liquid_color_main = Color( 0.513726, 0.137255, 0.137255, 1 )
+shader_param/liquid_color_surface = Color( 0.984314, 0.478431, 0.490196, 1 )
+shader_param/liquid_surface_thickness = 0.12
+shader_param/wave_amp = 0.25
+shader_param/wave_freq = 1.0
+shader_param/wave_scale = 1.0
+
+[sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+shader = ExtResource( 7 )
+shader_param/sprite_scale = Vector2( 1.66713, 1.11691 )
+shader_param/distortion = 16.265
+shader_param/liquid_color_main = Color( 0.180908, 0.250748, 0.8125, 1 )
+shader_param/liquid_color_surface = Color( 0.576471, 0.760784, 0.996078, 1 )
+shader_param/liquid_surface_thickness = 0.12
+shader_param/wave_amp = 0.25
+shader_param/wave_freq = 1.0
+shader_param/wave_scale = 1.0
+
+[node name="Level_TestSite" type="Node2D"]
+script = ExtResource( 12 )
+
+[node name="Liquid2" type="Sprite" parent="." instance=ExtResource( 1 )]
+material = SubResource( 1 )
+position = Vector2( -127.435, 105.962 )
+scale = Vector2( 2.35979, 1.50659 )
+texture = ExtResource( 6 )
+script = ExtResource( 5 )
+liquid_body_color = Color( 0.513726, 0.137255, 0.137255, 1 )
+liquid_surface_color = Color( 0.984314, 0.478431, 0.490196, 1 )
+
+[node name="Liquid" type="Sprite" parent="." instance=ExtResource( 1 )]
+material = SubResource( 2 )
+position = Vector2( 539.108, -23.1772 )
+scale = Vector2( 1.66713, 1.11691 )
+texture = ExtResource( 6 )
+script = ExtResource( 5 )
+liquid_body_color = Color( 0.180908, 0.250748, 0.8125, 1 )
+liquid_surface_color = Color( 0.576471, 0.760784, 0.996078, 1 )
+
+[node name="Doorway" type="Node2D" parent="." instance=ExtResource( 11 )]
+position = Vector2( 94.9786, 581.025 )
+script = ExtResource( 4 )
+color = Color( 0.0470588, 0.0156863, 0.980392, 1 )
+
+[node name="Doorway2" type="Node2D" parent="." instance=ExtResource( 11 )]
+position = Vector2( -306.381, 286.254 )
+rotation = 1.57079
+script = ExtResource( 4 )
+color = Color( 0.0235294, 0.980392, 0.0156863, 1 )
+
+[node name="BladeSaw" type="KinematicBody2D" parent="." instance=ExtResource( 10 )]
+position = Vector2( -389.595, -64.0996 )
+collision_layer = 2
+script = ExtResource( 3 )
+degrees_per_second = 270.0
+
+[node name="BladeSaw2" type="KinematicBody2D" parent="." instance=ExtResource( 10 )]
+position = Vector2( -298.686, -133.59 )
+collision_layer = 2
+script = ExtResource( 3 )
+degrees_per_second = -270.0
+
+[node name="Pusher" type="Node2D" parent="." instance=ExtResource( 9 )]
+position = Vector2( 108.94, -32.8218 )
+script = ExtResource( 8 )
+pulse_color = Color( 0.980392, 0.980392, 0.74902, 1 )
+push_force = 128.0
+push_angle = 34.923
+
+[node name="Pusher2" type="Node2D" parent="." instance=ExtResource( 9 )]
+position = Vector2( 170.94, -85.8217 )
+script = ExtResource( 8 )
+pulse_color = Color( 0.980392, 0.980392, 0.74902, 1 )
+push_force = 128.0
+push_angle = 58.923
+
+[node name="Pusher3" type="Node2D" parent="." instance=ExtResource( 9 )]
+position = Vector2( 237.94, -112.822 )
+script = ExtResource( 8 )
+pulse_color = Color( 0.980392, 0.980392, 0.74902, 1 )
+push_force = 128.0
+push_angle = 76.378
+
+[node name="Pusher4" type="Node2D" parent="." instance=ExtResource( 9 )]
+position = Vector2( 318.94, -122.822 )
+script = ExtResource( 8 )
+pulse_color = Color( 0.980392, 0.980392, 0.74902, 1 )
+push_force = 128.0
+push_angle = 90.0
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource( 2 )
+collision_layer = 2
+format = 1
+tile_data = PoolIntArray( -393207, 1, 0, -393206, 1, 1, -393205, 1, 2, -262145, 1, 262146, -327678, 1, 196611, -327677, 1, 327684, -327676, 1, 327684, -327675, 1, 327684, -327674, 1, 327684, -327673, 1, 196612, -327672, 1, 327684, -327671, 1, 65537, -327670, 1, 5, -327669, 1, 65539, -196609, 1, 262147, -262143, 0, 0, -262142, 1, 458753, -262134, 1, 65537, -262133, 1, 131074, -131081, 1, 0, -131080, 1, 1, -131079, 1, 65537, -131078, 1, 327684, -131077, 1, 327684, -131076, 1, 327684, -131075, 1, 327684, -131074, 1, 196612, -131073, 1, 327685, -196607, 0, 0, -196598, 1, 262147, -65545, 1, 65536, -65544, 1, 65537, -65543, 1, 65539, -131070, 0, 0, -131063, 1, 0, -131062, 1, 65537, -9, 1, 65541, -8, 1, 65537, -7, 1, 65539, -65534, 0, 0, -65529, 1, 262146, -65527, 1, 65536, -65526, 1, 65538, 65527, 1, 131072, 65528, 1, 65537, 65529, 1, 131074, 65532, 1, 262146, 65535, 1, 262146, 2, 0, 0, 7, 1, 327683, 8, 1, 327684, 9, 1, 196609, 10, 1, 65539, 131064, 1, 262147, 131068, 1, 262149, 131071, 1, 262147, 65538, 0, 0, 65545, 1, 65536, 65546, 1, 65538, 196600, 1, 262149, 196602, 1, 0, 196603, 1, 65537, 196604, 1, 393218, 196605, 1, 65537, 196606, 1, 131076, 196607, 1, 65537, 131074, 0, 0, 131081, 1, 131072, 131082, 1, 65537, 262136, 1, 262147, 262138, 1, 131072, 262139, 1, 131074, 262141, 1, 131072, 262142, 1, 4, 262143, 1, 131074, 196610, 0, 0, 196618, 1, 262147, 327672, 1, 262147, 262154, 1, 262149, 393208, 1, 327683, 393209, 1, 196612, 393210, 1, 327684, 393211, 1, 65537, 393212, 1, 1, 393213, 1, 65537, 393214, 1, 327684, 393215, 1, 327684, 327680, 1, 196613, 327683, 1, 196611, 327684, 1, 327684, 327685, 1, 196612, 327686, 1, 327684, 327687, 1, 196612, 327688, 1, 196612, 327689, 1, 196612, 327690, 1, 327685, 458747, 1, 131072, 458748, 1, 4, 458749, 1, 131074, 393216, 1, 262149, 393219, 1, 262149, 458752, 1, 262149, 458754, 1, 196611, 458755, 1, 327685, 524288, 1, 262147, 524290, 1, 262149, 589824, 1, 458753, 589826, 1, 458753 )
+
+[node name="Player_Start" type="Position2D" parent="."]
+position = Vector2( -31.5133, -15.0267 )
