@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Data/Objects/Liquid.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Data/Misc/Tileset.tres" type="TileSet" id=2]
+[ext_resource path="res://Data/Objects/ExitVortex.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Data/Shaders/Liquid.shader" type="Shader" id=7]
 [ext_resource path="res://Data/Objects/Pusher.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Data/Objects/BladeSaw.tscn" type="PackedScene" id=10]
@@ -93,3 +94,8 @@ tile_data = PoolIntArray( -393207, 1, 0, -393206, 1, 1, -393205, 1, 2, -262145, 
 
 [node name="Player_Start" type="Position2D" parent="."]
 position = Vector2( -31.5133, -15.0267 )
+
+[node name="ExitVortex" parent="." instance=ExtResource( 3 )]
+position = Vector2( 95.2261, 692.429 )
+next_level = "Level_002.tscn"
+[connection signal="exit_level" from="ExitVortex" to="." method="_on_ExitVortex_exit_level"]

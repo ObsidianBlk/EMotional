@@ -13,7 +13,7 @@
 [sub_resource type="ShaderMaterial" id=5]
 resource_local_to_scene = true
 shader = ExtResource( 6 )
-shader_param/sprite_scale = Vector2( 1, 1 )
+shader_param/sprite_scale = Vector2( 1.63999, 1 )
 shader_param/distortion = 16.265
 shader_param/liquid_color_main = Color( 0.741176, 0.741176, 0.741176, 1 )
 shader_param/liquid_color_surface = Color( 1, 1, 1, 1 )
@@ -25,7 +25,7 @@ shader_param/wave_scale = 1.0
 [sub_resource type="ShaderMaterial" id=3]
 resource_local_to_scene = true
 shader = ExtResource( 6 )
-shader_param/sprite_scale = Vector2( 1, 1 )
+shader_param/sprite_scale = Vector2( 1.56, 1 )
 shader_param/distortion = 16.265
 shader_param/liquid_color_main = Color( 0.305882, 0.129412, 0.745098, 1 )
 shader_param/liquid_color_surface = Color( 0.0156863, 0.658824, 0.745098, 1 )
@@ -660,5 +660,5 @@ tile_data = PoolIntArray( -1048590, 1, 0, -1048589, 1, 65537, -1048588, 1, 32768
 
 [node name="ExitVortex" parent="." instance=ExtResource( 3 )]
 position = Vector2( 630.493, -32.7922 )
-next_level = "Level_TestSite.tscn"
+next_level = "MainMenuLogo.tscn"
 [connection signal="exit_level" from="ExitVortex" to="." method="_on_ExitVortex_exit_level"]

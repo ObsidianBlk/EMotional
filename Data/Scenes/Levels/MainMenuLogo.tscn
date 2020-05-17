@@ -1,0 +1,156 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Data/Graphics/Logos/GodotWildJam.png" type="Texture" id=1]
+[ext_resource path="res://Data/Graphics/Logos/head_bg_less.png" type="Texture" id=2]
+[ext_resource path="res://Data/Graphics/Logos/GameTitle.png" type="Texture" id=3]
+[ext_resource path="res://Data/Graphics/Logos/Creator.png" type="Texture" id=4]
+[ext_resource path="res://Data/Graphics/Logos/CreationDate.png" type="Texture" id=5]
+[ext_resource path="res://Data/Scripts/Levels/MainMenuLogo.gd" type="Script" id=6]
+
+[sub_resource type="Animation" id=1]
+resource_name = "Title"
+length = 15.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("GodotJamTitle:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 4, 4.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -192.752, 375.251 ), Vector2( 627.468, 375.251 ), Vector2( 554.762, 375.251 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("GodotJamFace:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1.5, 2, 3, 3.5, 4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 174.297, 346.543 ), Vector2( 174.297, 346.543 ), Vector2( 477.778, 346.543 ), Vector2( 477.778, 346.543 ), Vector2( 477.778, 346.543 ), Vector2( 955.556, 346.543 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("GameTitle:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 10, 11.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 672.58, -129.185 ), Vector2( 672.58, -129.185 ), Vector2( 672.58, 352.496 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("GodotJamTitle/Sprite:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 4.5, 5, 5.5, 6, 8, 9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.501961 ), Color( 1, 1, 1, 0.25098 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("GodotJamFace/Sprite:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 1, 1.5, 2, 3, 3.5, 4, 4.5, 5, 5.5, 8, 9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.0941176 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.705882 ), Color( 1, 1, 1, 0.313726 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("GameTitle:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 10 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("CreationDate/Sprite:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 13, 14 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Creator/Sprite:modulate")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0, 12, 13 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[node name="MainMenuLogo" type="Node2D"]
+script = ExtResource( 6 )
+
+[node name="GameTitle" type="Position2D" parent="."]
+visible = false
+position = Vector2( 672.58, -129.185 )
+
+[node name="Sprite" type="Sprite" parent="GameTitle"]
+texture = ExtResource( 3 )
+
+[node name="GodotJamFace" type="Position2D" parent="."]
+position = Vector2( 174.297, 346.543 )
+
+[node name="Sprite" type="Sprite" parent="GodotJamFace"]
+modulate = Color( 1, 1, 1, 0 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 2 )
+
+[node name="GodotJamTitle" type="Position2D" parent="."]
+position = Vector2( -192.752, 375.251 )
+
+[node name="Sprite" type="Sprite" parent="GodotJamTitle"]
+modulate = Color( 1, 1, 1, 0 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 1 )
+
+[node name="CreationDate" type="Position2D" parent="."]
+position = Vector2( 789.418, 451.433 )
+
+[node name="Sprite" type="Sprite" parent="CreationDate"]
+modulate = Color( 1, 1, 1, 0 )
+texture = ExtResource( 5 )
+
+[node name="Creator" type="Position2D" parent="."]
+position = Vector2( 502.814, 239.1 )
+
+[node name="Sprite" type="Sprite" parent="Creator"]
+modulate = Color( 1, 1, 1, 0 )
+texture = ExtResource( 4 )
+
+[node name="AnimPlayer" type="AnimationPlayer" parent="."]
+autoplay = "Title"
+anims/Title = SubResource( 1 )
+
+[node name="Player_Start" type="Position2D" parent="."]
+position = Vector2( 683, 384 )
+[connection signal="animation_finished" from="AnimPlayer" to="." method="_on_AnimPlayer_animation_finished"]

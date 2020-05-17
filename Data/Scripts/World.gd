@@ -17,12 +17,14 @@ func get_seconds():
 
 
 func load_and_play_music(src):
-	var fn = "res://Data/Sound/Music/" + src
-	if File.new().file_exists(fn):
-		$Music.stream = load(fn)
-		$Music.play()
+	if src != "":
+		var fn = "res://Data/Sound/Music/" + src
+		if File.new().file_exists(fn):
+			$Music.stream = load(fn)
+			$Music.play()
 
 func load_level(src):
+	$Music.stop()
 	_level_running = false
 	get_node("Player").hide()
 	var lvl = get_node("lvl")
@@ -38,7 +40,13 @@ func load_level(src):
 		_level_node.connect("exit_level", self, "_on_exit_level")
 		load_and_play_music(_level_node.get_level_music())
 		reset()
-		_level_running = true
+		if _level_node.is_main_menu():
+			$GUI/PlayerUI.hide()
+			$GUI/Timer.hide()
+		else:
+			$GUI/PlayerUI.show()
+			$GUI/Timer.show()
+			_level_running = true
 
 
 func reset():
@@ -50,7 +58,11 @@ func reset():
 		else:
 			p.position = Vector2.ZERO
 		p.reset()
-		p.show()
+		if _level_node.is_main_menu():
+			p.mode = RigidBody2D.MODE_KINEMATIC
+		else:
+			p.mode = RigidBody2D.MODE_RIGID
+			p.show()
 		_timer = 0.0
 		get_tree().paused = false
 
@@ -62,7 +74,7 @@ func pause(enable = true):
 
 func _ready():
 	set_physics_process(true)
-	load_level("Level_002.tscn")
+	load_level("MainMenuLogo.tscn")
 
 func _animate_level_exit(exit):
 	$Player.mode = RigidBody2D.MODE_KINEMATIC
@@ -80,7 +92,10 @@ func _on_PM_Quit_pressed():
 func _on_exit_level(exit, body, next_level):
 	if next_level != "":
 		_next_level = next_level
-		_animate_level_exit(exit)
+		if exit != null:
+			_animate_level_exit(exit)
+		else:
+			load_level(next_level)
 
 
 func _on_ExitTween_tween_all_completed():
