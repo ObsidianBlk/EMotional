@@ -24,6 +24,8 @@ bus = "Music"
 [node name="Player" parent="." instance=ExtResource( 2 )]
 visible = false
 
+[node name="ExitTween" type="Tween" parent="."]
+
 [node name="GUI" type="CanvasLayer" parent="."]
 pause_mode = 2
 script = ExtResource( 10 )
@@ -325,6 +327,7 @@ valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+[connection signal="tween_all_completed" from="ExitTween" to="." method="_on_ExitTween_tween_all_completed"]
 [connection signal="pressed" from="GUI/Menus/PauseMenu/Box/Resume Button/PM_Resume" to="GUI" method="_on_PM_Resume_pressed"]
 [connection signal="pressed" from="GUI/Menus/PauseMenu/Box/Quit Button/PM_Quit" to="GUI" method="_on_PM_Resume_pressed"]
 [connection signal="pressed" from="GUI/Menus/PauseMenu/Box/Quit Button/PM_Quit" to="." method="_on_PM_Quit_pressed"]

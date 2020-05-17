@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Data/Objects/BladeSaw.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Data/Graphics/placeholder.png" type="Texture" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Data/Objects/Doorway.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Data/Objects/Pusher.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Data/Scripts/Levels/Level_001.gd" type="Script" id=8]
+[ext_resource path="res://Data/Objects/ExitVortex.tscn" type="PackedScene" id=9]
 
 [sub_resource type="Shader" id=3]
 code = "shader_type canvas_item;
@@ -89,7 +90,7 @@ void fragment(){
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
 shader = SubResource( 3 )
-shader_param/sprite_scale = Vector2( 1.76, 1 )
+shader_param/sprite_scale = Vector2( 2.8, 1 )
 shader_param/distortion = 16.265
 shader_param/liquid_color_main = Color( 0.207843, 0.164706, 0.921569, 1 )
 shader_param/liquid_color_surface = Color( 0.360784, 0.352941, 0.972549, 1 )
@@ -113,7 +114,7 @@ shader_param/wave_scale = 1.0
 [sub_resource type="ShaderMaterial" id=5]
 resource_local_to_scene = true
 shader = ExtResource( 3 )
-shader_param/sprite_scale = Vector2( 1, 1 )
+shader_param/sprite_scale = Vector2( 1.72663, 1.16549 )
 shader_param/distortion = 16.265
 shader_param/liquid_color_main = Color( 0.670588, 0.105882, 0.105882, 1 )
 shader_param/liquid_color_surface = Color( 0.94902, 0.541176, 0.827451, 1 )
@@ -1039,3 +1040,8 @@ tile_data = PoolIntArray( -262147, 1, 196611, -262146, 1, 196612, -262145, 1, 32
 
 [node name="Player_Start" type="Position2D" parent="."]
 position = Vector2( 128.421, 407.368 )
+
+[node name="Exit" parent="." instance=ExtResource( 9 )]
+position = Vector2( 1602.84, 4034.27 )
+next_level = "Level_002.tscn"
+[connection signal="exit_level" from="Exit" to="." method="_on_Exit_exit_level"]
