@@ -15,7 +15,8 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Anchored"
+config/name="E-Motional Escape"
+config/description="Use your mouse to push your little energy ball around the world. Emotions will change depending on where your mouse is and what's being done to the little ball."
 run/main_scene="res://Data/Scenes/World.tscn"
 config/icon="res://icon.png"
 
