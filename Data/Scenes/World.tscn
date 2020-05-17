@@ -215,9 +215,9 @@ __meta__ = {
 [node name="PauseMenu" type="NinePatchRect" parent="GUI/Menus"]
 visible = false
 margin_left = 563.0
-margin_top = 183.0
+margin_top = 184.0
 margin_right = 803.0
-margin_bottom = 583.0
+margin_bottom = 584.0
 rect_min_size = Vector2( 240, 400 )
 texture = ExtResource( 3 )
 region_rect = Rect2( 0, 0, 64, 64 )
